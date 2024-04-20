@@ -7,13 +7,22 @@ import {
   FaMagnifyingGlass,
   FaCartShopping,
 } from "react-icons/fa6";
+// solve sidebar
+import { setSidebarOn } from "../../store/sidebarSlice";
+import { useSelector, useDispatch } from "react-redux";
 
 export default function Navbar() {
+  const dispatch = useDispatch();
+
   return (
     <nav className="navbar">
       <div className="navbar-cnt flex align-center">
         <div className="brand-and-toggler flex align-center">
-          <button type="button" className="sidebar-show-btn text-white">
+          <button
+            onClick={() => dispatch(setSidebarOn())}
+            type="button"
+            className="sidebar-show-btn text-white"
+          >
             <FaBars />
           </button>
           <Link to="/" className="navbar-brand flex align-center">
