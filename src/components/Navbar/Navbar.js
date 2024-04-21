@@ -16,7 +16,6 @@ import { getAllCategories } from "../../store/categorySlice";
 export default function Navbar() {
   const dispatch = useDispatch();
   const categories = useSelector(getAllCategories);
-  console.log(categories);
 
   return (
     <nav className="navbar">
