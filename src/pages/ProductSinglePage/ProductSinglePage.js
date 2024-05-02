@@ -13,6 +13,7 @@ import Loader from "../../components/Loader/Loader";
 import { formatPrice } from "../../utils/helpers";
 
 import { FaMinus, FaPlus, FaShoppingCart } from "react-icons/fa";
+import { addToCart } from "../../store/cartSlice";
 
 export default function ProductSinglePage() {
   const { id } = useParams();
@@ -25,7 +26,7 @@ export default function ProductSinglePage() {
   // getting single product
   useEffect(() => {
     dispatch(fetchAsyncProductSingle(id));
-  }, []);
+  }, [id]);
 
   let discountedPrice = (
     product?.price *
@@ -50,6 +51,14 @@ export default function ProductSinglePage() {
       if (tempQty < 1) tempQty = 1;
       return tempQty;
     });
+  };
+
+  const addToCartHandler = (product) => {
+    let discountedPrice =
+      product.price * (1 - product.discountPercentage / 100).toFixed(2);
+    let totalPrice = quantity * discountedPrice;
+
+    dispatch(addToCart({ ...product, quantity, totalPrice, discountedPrice }));
   };
 
   return (
@@ -184,7 +193,14 @@ export default function ProductSinglePage() {
                 <div className="btns">
                   <button className="add-to-cart-btn btn">
                     <FaShoppingCart />
-                    <span className="btn-text mx-2">Add to cart</span>
+                    <span
+                      className="btn-text mx-2"
+                      onClick={() => {
+                        addToCartHandler(product);
+                      }}
+                    >
+                      Add to cart
+                    </span>
                   </button>
                   <button className="buy-now btn mx-3">
                     <span className="btn-text">buy now</span>
