@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./Navbar.scss";
 import { Link } from "react-router-dom";
 import {
@@ -12,10 +12,22 @@ import { setSidebarOn } from "../../store/sidebarSlice";
 import { useSelector, useDispatch } from "react-redux";
 // get all categories
 import { getAllCategories } from "../../store/categorySlice";
+// carts
+import {
+  getAllCarts,
+  getCartItemsCount,
+  getCartTotal,
+} from "../../store/cartSlice";
 
 export default function Navbar() {
   const dispatch = useDispatch();
   const categories = useSelector(getAllCategories);
+  const carts = useSelector(getAllCarts);
+  const itemsCount = useSelector(getCartItemsCount);
+
+  useEffect(() => {
+    dispatch(getCartTotal());
+  }, [carts]);
 
   return (
     <nav className="navbar">
@@ -71,7 +83,7 @@ export default function Navbar() {
         <div className="navbar-cart flex align-center">
           <Link to="/cart" className="cart-btn">
             <FaCartShopping />
-            <div className="cart-items-value">0</div>
+            <div className="cart-items-value">{itemsCount}</div>
           </Link>
         </div>
       </div>
